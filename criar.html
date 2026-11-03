@@ -6,18 +6,22 @@
     <title>Koneat - Criar Publicação</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body.dark-create-theme {
-            background-color: #000000;
+        /* Reset total para garantir tela cheia preta sem falhas */
+        html, body.dark-create-theme {
+            background-color: #000000 !important;
             color: #ffffff;
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden;
+            padding: 0;
+            width: 100%;
             height: 100vh;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
-        /* Header com fundo preto e linha fina transparente de divisão */
+        /* Header com fundo preto absoluto e linha fina transparente */
         .create-header {
             display: flex;
             align-items: center;
@@ -27,7 +31,7 @@
             background: #000000;
             width: 100%;
             box-sizing: border-box;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha fina transparente */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .btn-close {
@@ -92,13 +96,15 @@
             cursor: pointer;
         }
 
-        /* Área principal e preview */
+        /* Área principal em fundo preto total */
         .create-main-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
             background: #000000;
+            width: 100%;
+            overflow: hidden;
         }
 
         .gallery-title-bar {
@@ -127,6 +133,7 @@
             position: relative;
             overflow: hidden;
             background: #000000;
+            width: 100%;
         }
 
         .create-preview-area video, 
@@ -157,7 +164,7 @@
             margin: 0;
         }
 
-        /* Barra Inferior com o Botão em formato de pílula oval correta (Largura fixa e harmônica) */
+        /* Barra Inferior com a pílula oval correta e linha fina de divisão */
         .create-footer-bar {
             padding: 16px 20px 24px 20px;
             background: #000000;
@@ -165,7 +172,9 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
-            border-top: 1px solid rgba(255, 255, 255, 0.08); /* Linha fina transparente de divisão inferior */
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .btn-advance-footer {
@@ -176,9 +185,9 @@
             font-weight: 700;
             cursor: not-allowed;
             padding: 12px 0;
-            width: 260px; /* Largura fixa controlada para formar a pílula oval perfeita */
+            width: 260px;
             height: 48px;
-            border-radius: 28px; /* Bordas arredondadas proporcionais */
+            border-radius: 28px;
             transition: 0.2s;
             text-align: center;
             opacity: 0.35;
@@ -306,7 +315,7 @@
 </head>
 <body class="dark-create-theme">
 
-    <!-- Header com fundo preto e linhas finas -->
+    <!-- Header -->
     <header class="create-header">
         <a href="./passo1.html" class="btn-close" aria-label="Fechar">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -342,7 +351,7 @@
         </div>
     </main>
 
-    <!-- Barra Inferior com o Botão Pílula Avançar Correto -->
+    <!-- Barra Inferior com Botão Pílula -->
     <footer class="create-footer-bar">
         <button type="button" class="btn-advance-footer" id="btnAdvanceFooter">Avançar</button>
     </footer>
@@ -396,8 +405,8 @@
                 
                 const emptyText = document.querySelector('.empty-preview-text');
                 if (selectedType === 'post') emptyText.textContent = 'Capture o momento com um amigo';
-                if (selectedType === 'video') emptyText.textContent = 'Grave ou selecione um vídeo';
-                if (selectedType === 'viral') emptyText.textContent = 'Crie um vídeo viral';
+                if (selectedType === 'video') emptyText.textContent = 'Grave ou selecione um vídeo (até 3 min)';
+                if (selectedType === 'viral') emptyText.textContent = 'Crie um vídeo viral (até 1m30s)';
             });
         });
 
@@ -412,15 +421,59 @@
             const file = e.target.files[0];
             if (!file) return;
 
+            const isVideo = file.type.startsWith('video');
+            const fileSizeMB = file.size / (1024 * 1024);
+
+            // Validação de tamanho (Imagens 10MB, Vídeos 100MB, Virais 50MB)
+            if (!isVideo && fileSizeMB > 10) {
+                alert("A imagem é muito grande. O limite máximo é 10MB.");
+                return;
+            }
+            if (isVideo && selectedType === 'viral' && fileSizeMB > 50) {
+                alert("O vídeo viral excede o limite de 50MB.");
+                return;
+            }
+            if (isVideo && selectedType !== 'viral' && fileSizeMB > 100) {
+                alert("O vídeo excede o limite de 100MB.");
+                return;
+            }
+
+            if (isVideo) {
+                // Validação de Duração do Vídeo (Regra dos segundos + gordura)
+                const tempVideo = document.createElement('video');
+                tempVideo.preload = 'metadata';
+                tempVideo.onloadedmetadata = function() {
+                    window.URL.revokeObjectURL(tempVideo.src);
+                    const duration = tempVideo.duration; // em segundos
+
+                    // Aba VÍDEO: limite 180s + gordura até 185s[span_2](start_span)[span_2](end_span)
+                    if (selectedType === 'video' && duration > 185) {
+                        alert(`O vídeo tem ${Math.round(duration)}s. O limite máximo para a aba Vídeo é de 3 minutos (185s com tolerância).`);
+                        return;
+                    }
+                    // Aba VIRAL: limite 90s + gordura até 95s[span_3](start_span)[span_3](end_span)
+                    if (selectedType === 'viral' && duration > 95) {
+                        alert(`O vídeo tem ${Math.round(duration)}s. O limite máximo para a aba Viral é de 1 minuto e 30 segundos (95s com tolerância).`);
+                        return;
+                    }
+
+                    processFile(file);
+                }
+                tempVideo.src = URL.createObjectURL(file);
+            } else {
+                processFile(file);
+            }
+        });
+
+        function processFile(file) {
             const reader = new FileReader();
             reader.onload = function(uploadEvent) {
                 mediaDataUrl = uploadEvent.target.result;
-                const isVideo = file.type.startsWith('video');
-                mediaType = isVideo ? 'video' : 'image';
+                mediaType = file.type.startsWith('video') ? 'video' : 'image';
 
                 emptyStateDisplay.style.display = 'none';
 
-                if (isVideo) {
+                if (mediaType === 'video') {
                     previewContainer.innerHTML = `<video src="${mediaDataUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
                 } else {
                     previewContainer.innerHTML = `<img src="${mediaDataUrl}" style="width: 100%; height: 100%; object-fit: contain;" />`;
@@ -432,7 +485,7 @@
                 btnAdvanceFooter.classList.add('active');
             };
             reader.readAsDataURL(file);
-        });
+        }
 
         btnAdvanceFooter.addEventListener('click', () => {
             if (!mediaDataUrl) return;
@@ -450,7 +503,6 @@
             const caption = postCaptionInput.value.trim();
             const uniqueId = 'post_' + Date.now();
 
-            // Executa o salvamento de forma leve usando setTimeout para evitar travamento de UI
             setTimeout(() => {
                 try {
                     const postData = {
@@ -461,12 +513,12 @@
                         caption: caption
                     };
 
-                    // 1. Salva sempre no perfil do usuário
+                    // 1. Salva no perfil do usuário
                     const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
                     userPosts.unshift(postData);
                     localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
 
-                    // 2. Se for vídeo ou selecionado na aba VIRAL, vai direto para o feed viral (passo2.html)
+                    // 2. Se for vídeo ou aba viral, vai para o feed viral (passo2.html)
                     if (mediaType === 'video' || selectedType === 'viral') {
                         const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
                         currentVirais.unshift(postData);
@@ -475,15 +527,15 @@
 
                     loadingOverlay.classList.remove('show');
 
-                    // Direcionamento correto após publicar
+                    // Redirecionamento correto
                     if (mediaType === 'video' || selectedType === 'viral') {
                         window.location.href = './passo2.html';
                     } else {
                         window.location.href = './passo1.html';
                     }
                 } catch (err) {
-                    console.error("Erro ao salvar post:", err);
-                    alert("O arquivo é muito grande para o armazenamento local. Tente um arquivo menor.");
+                    console.error("Erro ao salvar:", err);
+                    alert("Erro ao salvar o arquivo. Tente um arquivo menor.");
                     loadingOverlay.classList.remove('show');
                 }
             }, 300);
