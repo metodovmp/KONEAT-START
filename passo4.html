@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* ==============================
-           RESET E ESTRUTURA PRINCIPAL
-        ============================== */
-
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
@@ -42,10 +38,7 @@
             font-family: inherit;
         }
 
-        /* ==============================
-           CABEÇALHO KONEAT
-        ============================== */
-
+        /* CABEÇALHO KONEAT */
         .home-header {
             position: sticky;
             top: 0;
@@ -93,10 +86,7 @@
             height: 27px;
         }
 
-        /* ==============================
-           ABAS SUPERIORES
-        ============================== */
-
+        /* ABAS SUPERIORES */
         .home-subnav {
             position: sticky;
             top: 64px;
@@ -117,7 +107,7 @@
             height: 100%;
             background: none;
             border: none;
-            padding: 0 0;
+            padding: 0;
             font-size: 15px;
             font-weight: 500;
             color: #85858f;
@@ -141,10 +131,7 @@
             border-radius: 3px;
         }
 
-        /* ==============================
-           FEED PRINCIPAL
-        ============================== */
-
+        /* FEED PRINCIPAL */
         .home-feed-container {
             width: 100%;
             display: flex;
@@ -153,10 +140,7 @@
             background: #ffffff;
         }
 
-        /* ==============================
-           STORIES
-        ============================== */
-
+        /* STORIES */
         .stories-bar {
             width: 100%;
             min-height: 145px;
@@ -230,10 +214,7 @@
             text-overflow: ellipsis;
         }
 
-        /* ==============================
-           PUBLICAÇÕES
-        ============================== */
-
+        /* PUBLICAÇÕES */
         .post-card {
             width: 100%;
             background: #ffffff;
@@ -298,10 +279,7 @@
             color: #000000;
         }
 
-        /* ==============================
-           IMAGEM E VÍDEO
-        ============================== */
-
+        /* IMAGEM E VÍDEO */
         .post-media-wrapper {
             width: calc(100% - 36px);
             margin: 0 18px;
@@ -351,10 +329,7 @@
             height: 24px;
         }
 
-        /* ==============================
-           AÇÕES DO POST
-        ============================== */
-
+        /* AÇÕES DO POST */
         .post-actions-bar {
             width: 100%;
             min-height: 66px;
@@ -422,10 +397,7 @@
             font-weight: 700;
         }
 
-        /* ==============================
-           FEED VAZIO
-        ============================== */
-
+        /* FEED VAZIO */
         .empty-home-feed {
             width: 100%;
             text-align: center;
@@ -435,32 +407,31 @@
             line-height: 1.5;
         }
 
-        /* ==============================
-           NAVEGAÇÃO INFERIOR
-        ============================== */
-
+        /* NAVEGAÇÃO INFERIOR UNIFICADA (Estilo Padrão 62px com caixinha preenchida) */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             width: 100%;
-            height: calc(72px + env(safe-area-inset-bottom));
-            padding: 0 12px env(safe-area-inset-bottom);
-            background: #000000;
+            height: 62px;
+            background: #121214;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-around;
             z-index: 999;
-            border-top: 1px solid #222222;
+            box-sizing: border-box;
+            padding: 0 10px;
         }
 
         .nav-link {
-            width: 55px;
-            height: 55px;
+            width: 48px;
+            height: 48px;
             background: none;
             border: none;
-            color: #a5a5ad;
+            color: #8e8e93;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -469,63 +440,24 @@
         }
 
         .nav-link svg {
-            width: 30px;
-            height: 30px;
+            width: 22px;
+            height: 22px;
         }
 
-        .nav-link.active-home {
-            color: #ffffff;
-        }
-
-        .nav-link.active-home svg {
+        /* ESTILO DO ITEM ATIVO NA HOME (Caixinha branca preenchida com ícone preto) */
+        .nav-link.active-home .nav-box-bg {
             fill: #ffffff;
-            stroke: #ffffff;
         }
 
-        .nav-link.active-home svg path,
-        .nav-link.active-home svg polyline {
-            fill: #ffffff;
-            stroke: #ffffff;
+        .nav-link.active-home .nav-icon-inner {
+            stroke: #121214;
+            fill: #121214;
         }
 
-        /* ==============================
-           RESPONSIVIDADE
-        ============================== */
-
-        @media (max-width: 380px) {
-            .home-logo {
-                font-size: 25px;
-            }
-
-            .home-subnav {
-                gap: 26px;
-            }
-
-            .post-actions-left {
-                gap: 17px;
-            }
-
-            .post-media-wrapper {
-                width: calc(100% - 24px);
-                margin: 0 12px;
-            }
-
-            .post-header {
-                padding-left: 14px;
-                padding-right: 14px;
-            }
-        }
-
-        @media (min-width: 600px) {
+        @media (max-width: 600px) {
             .home-feed-container {
                 max-width: 650px;
                 margin: 0 auto;
-            }
-
-            .home-header,
-            .home-subnav {
-                padding-left: max(18px, calc((100% - 650px) / 2));
-                padding-right: max(18px, calc((100% - 650px) / 2));
             }
         }
     </style>
@@ -535,186 +467,100 @@
 
     <!-- CABEÇALHO -->
     <header class="home-header">
-
         <h1 class="home-logo">koneat</h1>
-
         <div class="home-header-icons">
-
-            <button type="button" class="icon-top-btn"
-                    aria-label="Pesquisar">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
+            <button type="button" class="icon-top-btn" aria-label="Pesquisar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"/>
-                    <line x1="21" y1="21"
-                          x2="16.65" y2="16.65"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
             </button>
-
-            <button type="button" class="icon-top-btn"
-                    aria-label="Notificações">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
+            <button type="button" class="icon-top-btn" aria-label="Notificações">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                     <path d="M12 2v2"/>
                 </svg>
             </button>
-
         </div>
     </header>
 
     <!-- ABAS -->
     <nav class="home-subnav">
-
-        <button type="button"
-                class="subnav-tab active"
-                data-feed="for-you">
-            pra você
-        </button>
-
-        <button type="button"
-                class="subnav-tab"
-                data-feed="following">
-            seguindo
-        </button>
-
-        <button type="button"
-                class="subnav-tab"
-                data-feed="explore">
-            explorar
-        </button>
-
+        <button type="button" class="subnav-tab active" data-feed="for-you">pra você</button>
+        <button type="button" class="subnav-tab" data-feed="following">seguindo</button>
+        <button type="button" class="subnav-tab" data-feed="explore">explorar</button>
     </nav>
 
     <!-- FEED -->
-    <main class="home-feed-container"
-          id="homeFeedContainer">
-
+    <main class="home-feed-container" id="homeFeedContainer">
         <!-- STORIES -->
         <section class="stories-bar">
-
             <div class="story-item">
-
                 <div class="story-avatar">
-
-                    <svg viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.8">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
-
                     <div class="story-add-badge">+</div>
-
                 </div>
-
                 <span class="story-username">seu story</span>
-
             </div>
-
         </section>
 
         <!-- PUBLICAÇÕES DINÂMICAS -->
         <section id="postsDynamicFeed">
-
             <div class="empty-home-feed">
-                Nenhuma publicação no momento.
-                Crie um post para começar!
+                Nenhuma publicação no momento.<br>Crie um post para começar!
             </div>
-
         </section>
-
     </main>
 
-    <!-- NAVEGAÇÃO INFERIOR -->
+    <!-- NAVEGAÇÃO INFERIOR CORRIGIDA E ALINHADA -->
     <nav class="bottom-nav-fixed">
-
-        <!-- 1. HOME -->
-        <a href="./passo4.html"
-           class="nav-link active-home"
-           aria-label="Home">
-
-            <svg viewBox="0 0 24 24"
-                 fill="currentColor"
-                 stroke="currentColor"
-                 stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
+        <!-- 1. HOME (Passo 4 - Ativo com caixinha branca e ícone preto) -->
+        <a href="./passo4.html" class="nav-link active-home" aria-label="Home">
+            <svg viewBox="0 0 24 24">
+                <rect class="nav-box-bg" x="2" y="2" width="20" height="20" rx="5" fill="none"></rect>
+                <path class="nav-icon-inner" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#8e8e93" stroke-width="2" fill="none"/>
+                <polyline class="nav-icon-inner" points="9 22 9 12 15 12 15 22" stroke="#8e8e93" stroke-width="2" fill="none"/>
             </svg>
-
         </a>
 
-        <!-- 2. PLUS -->
-        <a href="./criar.html"
-           class="nav-link"
-           aria-label="Criar publicação">
+        <!-- 2. PLUS (Passo 3) -->
+        <a href="./passo3.html" class="nav-link" aria-label="Criar publicação">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </a>
 
-            <svg viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2">
+        <!-- 3. VÍDEOS (Passo 2) -->
+        <a href="./passo2.html" class="nav-link" aria-label="Vídeos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5"/>
-                <line x1="12" y1="7" x2="12" y2="17"/>
-                <line x1="7" y1="12" x2="17" y2="12"/>
+                <polygon points="10,8 16,12 10,16" fill="#8e8e93"/>
             </svg>
-
         </a>
 
-        <!-- 3. VÍDEO -->
-        <a href="./passo2.html"
-           class="nav-link"
-           aria-label="Vídeos">
-
-            <svg viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="5"/>
-                <polygon points="10,8 16,12 10,16"
-                         fill="none"/>
-            </svg>
-
-        </a>
-
-        <!-- 4. PERFIL -->
-        <a href="./passo1.html"
-           class="nav-link"
-           aria-label="Perfil">
-
-            <svg viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <!-- 4. PERFIL (Passo 1) -->
+        <a href="./passo1.html" class="nav-link" aria-label="Perfil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round">
                 <circle cx="12" cy="7" r="4"/>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
             </svg>
-
         </a>
-
     </nav>
 
     <!-- JAVASCRIPT -->
     <script>
-
-        const postsDynamicFeed =
-            document.getElementById('postsDynamicFeed');
-
-        const tabs =
-            document.querySelectorAll('.subnav-tab');
-
-        /* ==============================
-           SEGURANÇA LOCALSTORAGE
-        ============================== */
+        const postsDynamicFeed = document.getElementById('postsDynamicFeed');
+        const tabs = document.querySelectorAll('.subnav-tab');
 
         function getStoredArray(key) {
             try {
-                const data = JSON.parse(
-                    localStorage.getItem(key) || '[]'
-                );
-
+                const data = JSON.parse(localStorage.getItem(key) || '[]');
                 return Array.isArray(data) ? data : [];
-
             } catch (error) {
                 console.error('Erro ao ler:', key);
                 return [];
@@ -722,485 +568,81 @@
         }
 
         function escapeHTML(value) {
-            return String(value ?? '').replace(
-                /[&<>"']/g,
-                char => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;'
-                })[char]
-            );
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[char]);
         }
 
-        /* ==============================
-           CARREGAR PUBLICAÇÕES
-        ============================== */
-
         function renderHomeFeed() {
-
-            const userPosts =
-                getStoredArray('koneat_user_posts');
-
-            const viraisFeed =
-                getStoredArray('koneat_virais_feed');
-
+            const userPosts = getStoredArray('koneat_user_posts');
+            const viraisFeed = getStoredArray('koneat_virais_feed');
             const allPostsMap = new Map();
 
             [...userPosts, ...viraisFeed].forEach(post => {
-
                 if (post && post.id != null) {
                     allPostsMap.set(String(post.id), post);
                 }
-
             });
 
-            const combinedPosts =
-                Array.from(allPostsMap.values());
+            const combinedPosts = Array.from(allPostsMap.values());
 
             if (combinedPosts.length === 0) {
-
                 postsDynamicFeed.innerHTML = `
                     <div class="empty-home-feed">
-                        Nenhuma publicação no momento.
-                        Crie um post para começar!
+                        Nenhuma publicação no momento.<br>Crie um post para começar!
                     </div>
                 `;
-
                 return;
             }
 
-            postsDynamicFeed.innerHTML =
-                combinedPosts.map(item => {
+            postsDynamicFeed.innerHTML = combinedPosts.map(item => {
+                const isVideo = item.type === 'video';
+                const authorName = escapeHTML(item.author || 'Eributtler');
+                const caption = escapeHTML(item.caption || '');
+                const postId = escapeHTML(item.id);
 
-                    const isVideo =
-                        item.type === 'video';
-
-                    const authorName =
-                        escapeHTML(item.author || 'Eributtler');
-
-                    const caption =
-                        escapeHTML(item.caption || '');
-
-                    const postId =
-                        String(item.id);
-
-                    const safeId =
-                        escapeHTML(postId);
-
-                    const isLiked =
-                        localStorage.getItem(
-                            `koneat_like_${postId}`
-                        ) === 'true';
-
-                    const isSaved =
-                        localStorage.getItem(
-                            `koneat_save_${postId}`
-                        ) === 'true';
-
-                    const mediaUrl =
-                        escapeHTML(item.url || '');
-
-                    const mediaHTML = isVideo ? `
-
-                        <video
-                            src="${mediaUrl}"
-                            autoplay
-                            loop
-                            muted
-                            playsinline
-                            preload="metadata">
-                        </video>
-
-                        <button
-                            type="button"
-                            class="post-sound-btn"
-                            onclick="togglePostSound(this)"
-                            aria-label="Ativar ou desativar áudio">
-
-                            <svg viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                                <line x1="23" y1="9"
-                                      x2="17" y2="15"/>
-                                <line x1="17" y1="9"
-                                      x2="23" y2="15"/>
-                            </svg>
-
-                        </button>
-
-                    ` : `
-
-                        <img
-                            src="${mediaUrl}"
-                            alt="Publicação de ${authorName}"
-                            loading="lazy">
-
-                    `;
-
-                    return `
-
-                        <article class="post-card"
-                                 data-post-id="${safeId}">
-
-                            <!-- AUTOR -->
-                            <div class="post-header">
-
-                                <div class="post-author-info">
-
-                                    <div class="author-avatar">
-                                        ${authorName.charAt(0).toUpperCase()}
-                                    </div>
-
-                                    <span class="author-name">
-                                        @${authorName}
-                                    </span>
-
-                                </div>
-
-                                <button
-                                    type="button"
-                                    class="btn-follow-home"
-                                    onclick="toggleFollow(this)">
-
-                                    Seguir
-
+                return `
+                    <article class="post-card" data-post-id="${postId}">
+                        <div class="post-header">
+                            <div class="post-author-info">
+                                <div class="author-avatar">${authorName.charAt(0).toUpperCase()}</div>
+                                <span class="author-name">${authorName}</span>
+                            </div>
+                            <button type="button" class="btn-follow-home">Seguir</button>
+                        </div>
+                        <div class="post-media-wrapper">
+                            ${isVideo ? 
+                                `<video src="${item.url}" autoplay loop muted playsinline></video>` : 
+                                `<img src="${item.url}" alt="Publicação">`
+                            }
+                        </div>
+                        <div class="post-actions-bar">
+                            <div class="post-actions-left">
+                                <button type="button" class="post-action-btn" aria-label="Curtir">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                 </button>
-
-                            </div>
-
-                            <!-- MÍDIA -->
-                            <div class="post-media-wrapper">
-
-                                ${mediaHTML}
-
-                            </div>
-
-                            <!-- AÇÕES -->
-                            <div class="post-actions-bar">
-
-                                <div class="post-actions-left">
-
-                                    <!-- CURTIR -->
-                                    <button
-                                        type="button"
-                                        class="post-action-btn ${isLiked ? 'liked' : ''}"
-                                        onclick="toggleLike(this)"
-                                        aria-label="Curtir">
-
-                                        <svg viewBox="0 0 24 24"
-                                             fill="${isLiked ? '#ed3150' : 'none'}"
-                                             stroke="currentColor"
-                                             stroke-width="2">
-
-                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-
-                                        </svg>
-
-                                    </button>
-
-                                    <!-- COMENTAR -->
-                                    <button
-                                        type="button"
-                                        class="post-action-btn"
-                                        onclick="commentPost(this)"
-                                        aria-label="Comentar">
-
-                                        <svg viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2">
-
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-
-                                        </svg>
-
-                                    </button>
-
-                                    <!-- COMPARTILHAR -->
-                                    <button
-                                        type="button"
-                                        class="post-action-btn"
-                                        onclick="sharePost(this)"
-                                        aria-label="Compartilhar">
-
-                                        <svg viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2">
-
-                                            <path d="M22 2L11 13"/>
-                                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-
-                                        </svg>
-
-                                    </button>
-
-                                </div>
-
-                                <!-- SALVAR -->
-                                <button
-                                    type="button"
-                                    class="post-action-btn ${isSaved ? 'saved' : ''}"
-                                    onclick="toggleSave(this)"
-                                    aria-label="Salvar publicação">
-
-                                    <svg viewBox="0 0 24 24"
-                                         fill="${isSaved ? '#000000' : 'none'}"
-                                         stroke="currentColor"
-                                         stroke-width="2">
-
-                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-
-                                    </svg>
-
+                                <button type="button" class="post-action-btn" aria-label="Comentar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                                 </button>
-
+                                <button type="button" class="post-action-btn" aria-label="Compartilhar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v-1a7 7 0 0 1 7-7h9"/><polyline points="16 8 20 4 16 0"/></svg>
+                                </button>
                             </div>
-
-                            <!-- LEGENDA -->
-                            ${caption ? `
-
-                                <div class="post-caption-area">
-
-                                    <span class="post-caption-author">
-                                        ${authorName}
-                                    </span>
-
-                                    <span class="post-caption-text">
-                                        ${caption}
-                                    </span>
-
-                                </div>
-
-                            ` : ''}
-
-                        </article>
-
-                    `;
-
-                }).join('');
-
+                        </div>
+                        ${caption ? `
+                            <div class="post-caption-area">
+                                <span class="post-caption-author">${authorName}</span>
+                                <span class="post-caption-text">${caption}</span>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
         }
 
-        /* ==============================
-           CURTIR PUBLICAÇÃO
-        ============================== */
-
-        function toggleLike(btn) {
-
-            const card = btn.closest('.post-card');
-
-            const id = card.dataset.postId;
-
-            const liked = btn.classList.toggle('liked');
-
-            localStorage.setItem(
-                `koneat_like_${id}`,
-                String(liked)
-            );
-
-            const svg = btn.querySelector('svg');
-
-            svg.setAttribute(
-                'fill',
-                liked ? '#ed3150' : 'none'
-            );
-
-            svg.setAttribute(
-                'stroke',
-                liked ? '#ed3150' : 'currentColor'
-            );
-
-        }
-
-        /* ==============================
-           SALVAR PUBLICAÇÃO
-        ============================== */
-
-        function toggleSave(btn) {
-
-            const card = btn.closest('.post-card');
-
-            const id = card.dataset.postId;
-
-            const saved = btn.classList.toggle('saved');
-
-            localStorage.setItem(
-                `koneat_save_${id}`,
-                String(saved)
-            );
-
-            const svg = btn.querySelector('svg');
-
-            svg.setAttribute(
-                'fill',
-                saved ? '#000000' : 'none'
-            );
-
-        }
-
-        /* ==============================
-           SEGUIR PERFIL
-        ============================== */
-
-        function toggleFollow(btn) {
-
-            const following =
-                btn.classList.toggle('following');
-
-            btn.textContent =
-                following ? 'Seguindo' : 'Seguir';
-
-        }
-
-        /* ==============================
-           CONTROLE DE ÁUDIO
-        ============================== */
-
-        function togglePostSound(btn) {
-
-            const video =
-                btn.previousElementSibling;
-
-            if (!video || video.tagName !== 'VIDEO') {
-                return;
-            }
-
-            video.muted = !video.muted;
-
-            btn.style.opacity =
-                video.muted ? '0.6' : '1';
-
-        }
-
-        /* ==============================
-           COMENTÁRIOS
-        ============================== */
-
-        function commentPost(btn) {
-
-            const card = btn.closest('.post-card');
-
-            const id = card.dataset.postId;
-
-            const commentsKey =
-                `koneat_comments_${id}`;
-
-            const comments =
-                getStoredArray(commentsKey);
-
-            const comment = prompt(
-                'Escreva seu comentário:'
-            );
-
-            if (comment === null || !comment.trim()) {
-                return;
-            }
-
-            comments.push({
-                text: comment.trim(),
-                date: new Date().toISOString()
-            });
-
-            localStorage.setItem(
-                commentsKey,
-                JSON.stringify(comments)
-            );
-
-            alert('Comentário registrado!');
-
-        }
-
-        /* ==============================
-           COMPARTILHAR
-        ============================== */
-
-        async function sharePost(btn) {
-
-            const card = btn.closest('.post-card');
-
-            const id = card.dataset.postId;
-
-            const shareData = {
-                title: 'Koneat',
-                text: 'Confira esta publicação no Koneat!',
-                url: window.location.href + '#post-' + id
-            };
-
-            try {
-
-                if (navigator.share) {
-
-                    await navigator.share(shareData);
-
-                } else if (navigator.clipboard) {
-
-                    await navigator.clipboard.writeText(
-                        shareData.url
-                    );
-
-                    alert('Link copiado!');
-
-                } else {
-
-                    prompt('Copie o link:', shareData.url);
-
-                }
-
-            } catch (error) {
-
-                if (error.name !== 'AbortError') {
-                    console.error('Erro ao compartilhar:', error);
-                }
-
-            }
-
-        }
-
-        /* ==============================
-           ABAS DA HOME
-        ============================== */
-
-        tabs.forEach(tab => {
-
-            tab.addEventListener('click', () => {
-
-                tabs.forEach(item =>
-                    item.classList.remove('active')
-                );
-
-                tab.classList.add('active');
-
-                const feedType =
-                    tab.dataset.feed;
-
-                if (feedType === 'for-you') {
-                    renderHomeFeed();
-                }
-
-                if (feedType === 'following') {
-                    renderHomeFeed();
-                }
-
-                if (feedType === 'explore') {
-                    renderHomeFeed();
-                }
-
-            });
-
-        });
-
-        /* ==============================
-           INICIALIZAÇÃO
-        ============================== */
-
-        renderHomeFeed();
-
-    </script>
-
-</body>
-</html>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHom
