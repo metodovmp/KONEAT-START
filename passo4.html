@@ -2,449 +2,1205 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
     <title>Koneat - Home</title>
+
     <link rel="stylesheet" href="css/style.css">
+
     <style>
-        /* Fundo branco e reset de layout */
-        body.light-home-theme {
-            background-color: #ffffff;
-            color: #000000;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-            padding-bottom: 70px; /* Espaço para a barra inferior */
+        /* ==============================
+           RESET E ESTRUTURA PRINCIPAL
+        ============================== */
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Header fixo branco */
+        html {
+            width: 100%;
+            min-height: 100%;
+            background: #ffffff;
+        }
+
+        body.light-home-theme {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: #ffffff;
+            color: #000000;
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            padding-bottom: calc(76px + env(safe-area-inset-bottom));
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* ==============================
+           CABEÇALHO KONEAT
+        ============================== */
+
         .home-header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 52px;
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
-            z-index: 50;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0 18px;
+            z-index: 100;
+            border-bottom: 1px solid #eeeeee;
         }
 
         .home-logo {
-            font-size: 20px;
+            margin: 0;
+            font-size: 28px;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -1.2px;
             color: #000000;
         }
 
         .home-header-icons {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 22px;
         }
 
         .icon-top-btn {
+            width: 30px;
+            height: 38px;
             background: none;
             border: none;
-            cursor: pointer;
             color: #000000;
             padding: 0;
             display: flex;
             align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
-        /* Abas superiores (Pra você | Seguindo | Explorar) */
+        .icon-top-btn svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        /* ==============================
+           ABAS SUPERIORES
+        ============================== */
+
         .home-subnav {
-            position: fixed;
-            top: 52px; left: 0; right: 0;
+            position: sticky;
+            top: 64px;
+            width: 100%;
             height: 44px;
             background: #ffffff;
             display: flex;
-            align-items: center;
-            justify-content: space-around;
-            z-index: 40;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 35px;
+            padding: 0 18px;
+            z-index: 90;
+            border-bottom: 1px solid #eeeeee;
         }
 
         .subnav-tab {
+            position: relative;
+            height: 100%;
             background: none;
             border: none;
+            padding: 0 0;
             font-size: 15px;
-            font-weight: 600;
-            color: #8e8e93;
+            font-weight: 500;
+            color: #85858f;
             cursor: pointer;
-            position: relative;
-            padding: 8px 0;
+            white-space: nowrap;
         }
 
         .subnav-tab.active {
             color: #000000;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .subnav-tab.active::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background-color: #000000;
+            height: 3px;
+            background: #000000;
+            border-radius: 3px;
         }
 
-        /* Container do Feed com Scroll Liso e Suave */
+        /* ==============================
+           FEED PRINCIPAL
+        ============================== */
+
         .home-feed-container {
-            margin-top: 96px;
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            scroll-behavior: smooth; /* Scroll mais suave */
+            gap: 0;
+            background: #ffffff;
         }
 
-        /* Seção de Stories */
+        /* ==============================
+           STORIES
+        ============================== */
+
         .stories-bar {
+            width: 100%;
+            min-height: 145px;
             display: flex;
-            gap: 12px;
-            padding: 12px 16px;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 17px 18px 13px;
             overflow-x: auto;
+            overflow-y: hidden;
             background: #ffffff;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid #eeeeee;
             scrollbar-width: none;
         }
-        .stories-bar::-webkit-scrollbar { display: none; }
+
+        .stories-bar::-webkit-scrollbar {
+            display: none;
+        }
 
         .story-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            cursor: pointer;
+            gap: 7px;
             flex-shrink: 0;
+            cursor: pointer;
+            min-width: 76px;
         }
 
         .story-avatar {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: #e1e1e6;
-            border: 2px solid #ffffff;
+            background: #e9e9ee;
+            border: 2px solid #111111;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: 0 0 0 2px #e74c3c;
+        }
+
+        .story-avatar svg {
+            width: 35px;
+            height: 35px;
+            color: #8e8e93;
         }
 
         .story-add-badge {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 18px;
-            height: 18px;
-            background: #0095f6;
-            color: #ffffff;
+            bottom: -3px;
+            right: -4px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            background: #000000;
+            color: #ffffff;
+            border: 2px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            border: 2px solid #ffffff;
+            font-size: 25px;
+            font-weight: 400;
+            line-height: 1;
         }
 
         .story-username {
-            font-size: 12px;
-            color: #262626;
-            max-width: 70px;
+            font-size: 13px;
+            color: #111111;
+            max-width: 80px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
-        /* Card de Post / Vídeo na Home */
+        /* ==============================
+           PUBLICAÇÕES
+        ============================== */
+
         .post-card {
+            width: 100%;
             background: #ffffff;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-            margin-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .post-header {
+            width: 100%;
+            min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 16px;
+            padding: 12px 18px;
         }
 
         .post-author-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            min-width: 0;
         }
 
         .author-avatar {
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
             border-radius: 50%;
-            background: #262626;
+            background: #000000;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 17px;
             font-weight: 700;
-            font-size: 13px;
         }
 
         .author-name {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
             color: #000000;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .btn-follow-home {
             background: #000000;
             color: #ffffff;
             border: none;
-            padding: 4px 14px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 9px 22px;
+            border-radius: 24px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
-        /* Mídia do Post (Vídeo ou Imagem) */
+        .btn-follow-home.following {
+            background: #eeeeee;
+            color: #000000;
+        }
+
+        /* ==============================
+           IMAGEM E VÍDEO
+        ============================== */
+
         .post-media-wrapper {
-            width: 100%;
-            max-height: 500px;
-            background: #000000;
+            width: calc(100% - 36px);
+            margin: 0 18px;
+            aspect-ratio: 0.86 / 1;
+            max-height: 75vh;
+            background: #e9e8ef;
+            border-radius: 15px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        .post-media-wrapper video,
-        .post-media-wrapper img {
+        .post-media-wrapper img,
+        .post-media-wrapper video {
+            display: block;
             width: 100%;
-            max-height: 500px;
+            height: 100%;
+            object-fit: cover;
+            background: #e9e8ef;
+        }
+
+        .post-media-wrapper video {
             object-fit: contain;
         }
 
         .post-sound-btn {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 32px;
-            height: 32px;
-            background: rgba(0, 0, 0, 0.6);
+            top: 15px;
+            right: 15px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
+            background: rgba(0, 0, 0, 0.55);
             border: none;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            z-index: 5;
         }
 
-        /* Barra de Ações (Curtir, Comentar, etc.) */
+        .post-sound-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* ==============================
+           AÇÕES DO POST
+        ============================== */
+
         .post-actions-bar {
+            width: 100%;
+            min-height: 66px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 16px;
+            padding: 8px 22px;
         }
 
         .post-actions-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 22px;
         }
 
         .post-action-btn {
             background: none;
             border: none;
-            cursor: pointer;
             padding: 0;
             color: #000000;
             display: flex;
             align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .post-action-btn svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        .post-action-btn.liked {
+            color: #ed3150;
+        }
+
+        .post-action-btn.liked svg {
+            fill: #ed3150;
+            stroke: #ed3150;
+        }
+
+        .post-action-btn.saved svg {
+            fill: #000000;
         }
 
         .post-caption-area {
-            padding: 0 16px 12px 16px;
+            padding: 0 22px 12px;
             font-size: 14px;
-            color: #262626;
+            line-height: 1.5;
+            color: #222222;
+            overflow-wrap: anywhere;
         }
 
         .post-caption-author {
             font-weight: 700;
-            margin-right: 6px;
+            margin-right: 5px;
         }
+
+        .post-caption-text {
+            font-weight: 400;
+        }
+
+        .post-likes-count {
+            padding: 0 22px 5px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ==============================
+           FEED VAZIO
+        ============================== */
 
         .empty-home-feed {
+            width: 100%;
             text-align: center;
-            padding: 60px 20px;
-            color: #8e8e93;
+            padding: 55px 25px;
+            color: #85858f;
             font-size: 15px;
+            line-height: 1.5;
         }
 
-        /* Barra de Navegação Fixa Inferior */
+        /* ==============================
+           NAVEGAÇÃO INFERIOR
+        ============================== */
+
         .bottom-nav-fixed {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
-            width: 100%; height: 60px;
-            background: #ffffff;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: calc(72px + env(safe-area-inset-bottom));
+            padding: 0 12px env(safe-area-inset-bottom);
+            background: #000000;
             display: flex;
             align-items: center;
             justify-content: space-around;
             z-index: 999;
-            box-sizing: border-box;
-            padding: 0 10px;
+            border-top: 1px solid #222222;
         }
 
         .nav-link {
-            background: none; border: none; cursor: pointer;
-            color: #8e8e93; display: flex; align-items: center;
-            justify-content: center; text-decoration: none;
-            width: 48px; height: 48px;
+            width: 55px;
+            height: 55px;
+            background: none;
+            border: none;
+            color: #a5a5ad;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        .nav-link.active-home .home-icon-filled { fill: #000000; stroke: #000000; }
+        .nav-link svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .nav-link.active-home {
+            color: #ffffff;
+        }
+
+        .nav-link.active-home svg {
+            fill: #ffffff;
+            stroke: #ffffff;
+        }
+
+        .nav-link.active-home svg path,
+        .nav-link.active-home svg polyline {
+            fill: #ffffff;
+            stroke: #ffffff;
+        }
+
+        /* ==============================
+           RESPONSIVIDADE
+        ============================== */
+
+        @media (max-width: 380px) {
+            .home-logo {
+                font-size: 25px;
+            }
+
+            .home-subnav {
+                gap: 26px;
+            }
+
+            .post-actions-left {
+                gap: 17px;
+            }
+
+            .post-media-wrapper {
+                width: calc(100% - 24px);
+                margin: 0 12px;
+            }
+
+            .post-header {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .home-feed-container {
+                max-width: 650px;
+                margin: 0 auto;
+            }
+
+            .home-header,
+            .home-subnav {
+                padding-left: max(18px, calc((100% - 650px) / 2));
+                padding-right: max(18px, calc((100% - 650px) / 2));
+            }
+        }
     </style>
 </head>
+
 <body class="light-home-theme">
 
-    <!-- Header Superior -->
+    <!-- CABEÇALHO -->
     <header class="home-header">
+
         <h1 class="home-logo">koneat</h1>
+
         <div class="home-header-icons">
-            <button type="button" class="icon-top-btn" aria-label="Pesquisar">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+
+            <button type="button" class="icon-top-btn"
+                    aria-label="Pesquisar">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21"
+                          x2="16.65" y2="16.65"/>
+                </svg>
             </button>
-            <button type="button" class="icon-top-btn" aria-label="Notificações">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+
+            <button type="button" class="icon-top-btn"
+                    aria-label="Notificações">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    <path d="M12 2v2"/>
+                </svg>
             </button>
+
         </div>
     </header>
 
-    <!-- Subnav de Abas -->
+    <!-- ABAS -->
     <nav class="home-subnav">
-        <button type="button" class="subnav-tab active">pra você</button>
-        <button type="button" class="subnav-tab">seguindo</button>
-        <button type="button" class="subnav-tab">explorar</button>
+
+        <button type="button"
+                class="subnav-tab active"
+                data-feed="for-you">
+            pra você
+        </button>
+
+        <button type="button"
+                class="subnav-tab"
+                data-feed="following">
+            seguindo
+        </button>
+
+        <button type="button"
+                class="subnav-tab"
+                data-feed="explore">
+            explorar
+        </button>
+
     </nav>
 
-    <!-- Container Principal do Feed (Scroll Suave) -->
-    <main class="home-feed-container" id="homeFeedContainer">
-        
-        <!-- Barra de Stories -->
-        <div class="stories-bar">
-            <div class="story-item">
-                <div class="story-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <div class="story-add-badge">+</div>
-                </div>
-                <span class="story-username">seu story</span>
-            </div>
-        </div>
+    <!-- FEED -->
+    <main class="home-feed-container"
+          id="homeFeedContainer">
 
-        <!-- O Feed de Posts será injetado dinamicamente via JS -->
-        <div id="postsDynamicFeed"></div>
+        <!-- STORIES -->
+        <section class="stories-bar">
+
+            <div class="story-item">
+
+                <div class="story-avatar">
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.8">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+
+                    <div class="story-add-badge">+</div>
+
+                </div>
+
+                <span class="story-username">seu story</span>
+
+            </div>
+
+        </section>
+
+        <!-- PUBLICAÇÕES DINÂMICAS -->
+        <section id="postsDynamicFeed">
+
+            <div class="empty-home-feed">
+                Nenhuma publicação no momento.
+                Crie um post para começar!
+            </div>
+
+        </section>
 
     </main>
 
-    <!-- Barra de Navegação Inferior (Home Ativa apontando para o passo4.html) -->
+    <!-- NAVEGAÇÃO INFERIOR -->
     <nav class="bottom-nav-fixed">
-        <a href="./passo4.html" class="nav-link active-home"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path class="home-icon-filled" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a>
-        <a href="./criar.html" class="nav-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></a>
-        <a href="./passo2.html" class="nav-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><polygon points="10,8 16,12 10,16" fill="currentColor"></polygon></svg></a>
-        <a href="./passo1.html" class="nav-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+
+        <!-- 1. HOME -->
+        <a href="./passo4.html"
+           class="nav-link active-home"
+           aria-label="Home">
+
+            <svg viewBox="0 0 24 24"
+                 fill="currentColor"
+                 stroke="currentColor"
+                 stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+
+        </a>
+
+        <!-- 2. PLUS -->
+        <a href="./criar.html"
+           class="nav-link"
+           aria-label="Criar publicação">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <line x1="12" y1="7" x2="12" y2="17"/>
+                <line x1="7" y1="12" x2="17" y2="12"/>
+            </svg>
+
+        </a>
+
+        <!-- 3. VÍDEO -->
+        <a href="./passo2.html"
+           class="nav-link"
+           aria-label="Vídeos">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <polygon points="10,8 16,12 10,16"
+                         fill="none"/>
+            </svg>
+
+        </a>
+
+        <!-- 4. PERFIL -->
+        <a href="./passo1.html"
+           class="nav-link"
+           aria-label="Perfil">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+
+        </a>
+
     </nav>
 
+    <!-- JAVASCRIPT -->
     <script>
-        const postsDynamicFeed = document.getElementById('postsDynamicFeed');
+
+        const postsDynamicFeed =
+            document.getElementById('postsDynamicFeed');
+
+        const tabs =
+            document.querySelectorAll('.subnav-tab');
+
+        /* ==============================
+           SEGURANÇA LOCALSTORAGE
+        ============================== */
+
+        function getStoredArray(key) {
+            try {
+                const data = JSON.parse(
+                    localStorage.getItem(key) || '[]'
+                );
+
+                return Array.isArray(data) ? data : [];
+
+            } catch (error) {
+                console.error('Erro ao ler:', key);
+                return [];
+            }
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? '').replace(
+                /[&<>"']/g,
+                char => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                })[char]
+            );
+        }
+
+        /* ==============================
+           CARREGAR PUBLICAÇÕES
+        ============================== */
 
         function renderHomeFeed() {
-            const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
-            const viraisFeed = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
-            
+
+            const userPosts =
+                getStoredArray('koneat_user_posts');
+
+            const viraisFeed =
+                getStoredArray('koneat_virais_feed');
+
             const allPostsMap = new Map();
-            [...userPosts, ...viraisFeed].forEach(p => allPostsMap.set(p.id, p));
-            const combinedPosts = Array.from(allPostsMap.values());
+
+            [...userPosts, ...viraisFeed].forEach(post => {
+
+                if (post && post.id != null) {
+                    allPostsMap.set(String(post.id), post);
+                }
+
+            });
+
+            const combinedPosts =
+                Array.from(allPostsMap.values());
 
             if (combinedPosts.length === 0) {
-                postsDynamicFeed.innerHTML = `<div class="empty-home-feed">Nenhuma publicação no momento. Crie um post para começar!</div>`;
+
+                postsDynamicFeed.innerHTML = `
+                    <div class="empty-home-feed">
+                        Nenhuma publicação no momento.
+                        Crie um post para começar!
+                    </div>
+                `;
+
                 return;
             }
 
-            postsDynamicFeed.innerHTML = combinedPosts.map(item => {
-                const isVideo = item.type === 'video';
-                const authorName = item.author || 'Eributtler';
-                const caption = item.caption || '';
-                const isLiked = localStorage.getItem(`koneat_like_${item.id}`) === 'true';
-                const isSaved = localStorage.getItem(`koneat_save_${item.id}`) === 'true';
+            postsDynamicFeed.innerHTML =
+                combinedPosts.map(item => {
 
-                return `
-                    <article class="post-card">
-                        <div class="post-header">
-                            <div class="post-author-info">
-                                <div class="author-avatar">${authorName.charAt(0).toUpperCase()}</div>
-                                <span class="author-name">${authorName}</span>
+                    const isVideo =
+                        item.type === 'video';
+
+                    const authorName =
+                        escapeHTML(item.author || 'Eributtler');
+
+                    const caption =
+                        escapeHTML(item.caption || '');
+
+                    const postId =
+                        String(item.id);
+
+                    const safeId =
+                        escapeHTML(postId);
+
+                    const isLiked =
+                        localStorage.getItem(
+                            `koneat_like_${postId}`
+                        ) === 'true';
+
+                    const isSaved =
+                        localStorage.getItem(
+                            `koneat_save_${postId}`
+                        ) === 'true';
+
+                    const mediaUrl =
+                        escapeHTML(item.url || '');
+
+                    const mediaHTML = isVideo ? `
+
+                        <video
+                            src="${mediaUrl}"
+                            autoplay
+                            loop
+                            muted
+                            playsinline
+                            preload="metadata">
+                        </video>
+
+                        <button
+                            type="button"
+                            class="post-sound-btn"
+                            onclick="togglePostSound(this)"
+                            aria-label="Ativar ou desativar áudio">
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                <line x1="23" y1="9"
+                                      x2="17" y2="15"/>
+                                <line x1="17" y1="9"
+                                      x2="23" y2="15"/>
+                            </svg>
+
+                        </button>
+
+                    ` : `
+
+                        <img
+                            src="${mediaUrl}"
+                            alt="Publicação de ${authorName}"
+                            loading="lazy">
+
+                    `;
+
+                    return `
+
+                        <article class="post-card"
+                                 data-post-id="${safeId}">
+
+                            <!-- AUTOR -->
+                            <div class="post-header">
+
+                                <div class="post-author-info">
+
+                                    <div class="author-avatar">
+                                        ${authorName.charAt(0).toUpperCase()}
+                                    </div>
+
+                                    <span class="author-name">
+                                        @${authorName}
+                                    </span>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="btn-follow-home"
+                                    onclick="toggleFollow(this)">
+
+                                    Seguir
+
+                                </button>
+
                             </div>
-                            <button type="button" class="btn-follow-home">Seguir</button>
-                        </div>
 
-                        <div class="post-media-wrapper">
-                            ${isVideo ? `
-                                <video src="${item.url}" autoplay loop muted playsinline style="width: 100%; max-height: 500px; object-fit: contain;"></video>
-                                <button type="button" class="post-sound-btn" onclick="togglePostSound(this)">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line></svg>
-                                </button>
-                            ` : `
-                                <img src="${item.url}" alt="Post" />
-                            `}
-                        </div>
+                            <!-- MÍDIA -->
+                            <div class="post-media-wrapper">
 
-                        <div class="post-actions-bar">
-                            <div class="post-actions-left">
-                                <button type="button" class="post-action-btn">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="${isLiked ? '#e74c3c' : 'none'}" stroke="${isLiked ? '#e74c3c' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                </button>
-                                <button type="button" class="post-action-btn">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                </button>
-                                <button type="button" class="post-action-btn">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                </button>
+                                ${mediaHTML}
+
                             </div>
-                            <button type="button" class="post-action-btn">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="${isSaved ? '#000000' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                            </button>
-                        </div>
 
-                        ${caption ? `
-                            <div class="post-caption-area">
-                                <span class="post-caption-author">${authorName}</span>
-                                <span class="post-caption-text">${caption}</span>
+                            <!-- AÇÕES -->
+                            <div class="post-actions-bar">
+
+                                <div class="post-actions-left">
+
+                                    <!-- CURTIR -->
+                                    <button
+                                        type="button"
+                                        class="post-action-btn ${isLiked ? 'liked' : ''}"
+                                        onclick="toggleLike(this)"
+                                        aria-label="Curtir">
+
+                                        <svg viewBox="0 0 24 24"
+                                             fill="${isLiked ? '#ed3150' : 'none'}"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+
+                                        </svg>
+
+                                    </button>
+
+                                    <!-- COMENTAR -->
+                                    <button
+                                        type="button"
+                                        class="post-action-btn"
+                                        onclick="commentPost(this)"
+                                        aria-label="Comentar">
+
+                                        <svg viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+
+                                        </svg>
+
+                                    </button>
+
+                                    <!-- COMPARTILHAR -->
+                                    <button
+                                        type="button"
+                                        class="post-action-btn"
+                                        onclick="sharePost(this)"
+                                        aria-label="Compartilhar">
+
+                                        <svg viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+
+                                            <path d="M22 2L11 13"/>
+                                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+
+                                        </svg>
+
+                                    </button>
+
+                                </div>
+
+                                <!-- SALVAR -->
+                                <button
+                                    type="button"
+                                    class="post-action-btn ${isSaved ? 'saved' : ''}"
+                                    onclick="toggleSave(this)"
+                                    aria-label="Salvar publicação">
+
+                                    <svg viewBox="0 0 24 24"
+                                         fill="${isSaved ? '#000000' : 'none'}"
+                                         stroke="currentColor"
+                                         stroke-width="2">
+
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+
+                                    </svg>
+
+                                </button>
+
                             </div>
-                        ` : ''}
-                    </article>
-                `;
-            }).join('');
+
+                            <!-- LEGENDA -->
+                            ${caption ? `
+
+                                <div class="post-caption-area">
+
+                                    <span class="post-caption-author">
+                                        ${authorName}
+                                    </span>
+
+                                    <span class="post-caption-text">
+                                        ${caption}
+                                    </span>
+
+                                </div>
+
+                            ` : ''}
+
+                        </article>
+
+                    `;
+
+                }).join('');
+
         }
+
+        /* ==============================
+           CURTIR PUBLICAÇÃO
+        ============================== */
+
+        function toggleLike(btn) {
+
+            const card = btn.closest('.post-card');
+
+            const id = card.dataset.postId;
+
+            const liked = btn.classList.toggle('liked');
+
+            localStorage.setItem(
+                `koneat_like_${id}`,
+                String(liked)
+            );
+
+            const svg = btn.querySelector('svg');
+
+            svg.setAttribute(
+                'fill',
+                liked ? '#ed3150' : 'none'
+            );
+
+            svg.setAttribute(
+                'stroke',
+                liked ? '#ed3150' : 'currentColor'
+            );
+
+        }
+
+        /* ==============================
+           SALVAR PUBLICAÇÃO
+        ============================== */
+
+        function toggleSave(btn) {
+
+            const card = btn.closest('.post-card');
+
+            const id = card.dataset.postId;
+
+            const saved = btn.classList.toggle('saved');
+
+            localStorage.setItem(
+                `koneat_save_${id}`,
+                String(saved)
+            );
+
+            const svg = btn.querySelector('svg');
+
+            svg.setAttribute(
+                'fill',
+                saved ? '#000000' : 'none'
+            );
+
+        }
+
+        /* ==============================
+           SEGUIR PERFIL
+        ============================== */
+
+        function toggleFollow(btn) {
+
+            const following =
+                btn.classList.toggle('following');
+
+            btn.textContent =
+                following ? 'Seguindo' : 'Seguir';
+
+        }
+
+        /* ==============================
+           CONTROLE DE ÁUDIO
+        ============================== */
 
         function togglePostSound(btn) {
-            const video = btn.previousElementSibling;
-            if (video && video.tagName === 'VIDEO') {
-                video.muted = !video.muted;
-                btn.style.opacity = video.muted ? '0.6' : '1';
+
+            const video =
+                btn.previousElementSibling;
+
+            if (!video || video.tagName !== 'VIDEO') {
+                return;
             }
+
+            video.muted = !video.muted;
+
+            btn.style.opacity =
+                video.muted ? '0.6' : '1';
+
         }
 
+        /* ==============================
+           COMENTÁRIOS
+        ============================== */
+
+        function commentPost(btn) {
+
+            const card = btn.closest('.post-card');
+
+            const id = card.dataset.postId;
+
+            const commentsKey =
+                `koneat_comments_${id}`;
+
+            const comments =
+                getStoredArray(commentsKey);
+
+            const comment = prompt(
+                'Escreva seu comentário:'
+            );
+
+            if (comment === null || !comment.trim()) {
+                return;
+            }
+
+            comments.push({
+                text: comment.trim(),
+                date: new Date().toISOString()
+            });
+
+            localStorage.setItem(
+                commentsKey,
+                JSON.stringify(comments)
+            );
+
+            alert('Comentário registrado!');
+
+        }
+
+        /* ==============================
+           COMPARTILHAR
+        ============================== */
+
+        async function sharePost(btn) {
+
+            const card = btn.closest('.post-card');
+
+            const id = card.dataset.postId;
+
+            const shareData = {
+                title: 'Koneat',
+                text: 'Confira esta publicação no Koneat!',
+                url: window.location.href + '#post-' + id
+            };
+
+            try {
+
+                if (navigator.share) {
+
+                    await navigator.share(shareData);
+
+                } else if (navigator.clipboard) {
+
+                    await navigator.clipboard.writeText(
+                        shareData.url
+                    );
+
+                    alert('Link copiado!');
+
+                } else {
+
+                    prompt('Copie o link:', shareData.url);
+
+                }
+
+            } catch (error) {
+
+                if (error.name !== 'AbortError') {
+                    console.error('Erro ao compartilhar:', error);
+                }
+
+            }
+
+        }
+
+        /* ==============================
+           ABAS DA HOME
+        ============================== */
+
+        tabs.forEach(tab => {
+
+            tab.addEventListener('click', () => {
+
+                tabs.forEach(item =>
+                    item.classList.remove('active')
+                );
+
+                tab.classList.add('active');
+
+                const feedType =
+                    tab.dataset.feed;
+
+                if (feedType === 'for-you') {
+                    renderHomeFeed();
+                }
+
+                if (feedType === 'following') {
+                    renderHomeFeed();
+                }
+
+                if (feedType === 'explore') {
+                    renderHomeFeed();
+                }
+
+            });
+
+        });
+
+        /* ==============================
+           INICIALIZAÇÃO
+        ============================== */
+
         renderHomeFeed();
+
     </script>
+
 </body>
-  </html>
-  
+</html>
