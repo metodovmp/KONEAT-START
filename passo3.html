@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneat - Criar Publicação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Reset total para garantir tela cheia preta fixa sem scroll */
+        html, body.dark-create-theme {
+            background-color: #000000 !important;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        /* Header com fundo preto absoluto e linha fina transparente */
+        .create-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            z-index: 20;
+            background: #000000;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .type-selector-tabs {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .type-tab {
+            background: none;
+            border: none;
+            color: #8e8e93;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 6px 0;
+            transition: color 0.2s;
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+
+        .type-tab.active {
+            color: #ffffff;
+        }
+
+        .type-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -13px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+        }
+
+        .header-right-placeholder {
+            width: 24px;
+        }
+
+        /* Área principal com fundo preto total */
+        .create-main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: #000000;
+            width: 100%;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        /* Barra de controles superior dentro da tela (Galeria e Ícones à direita) */
+        .top-action-bar {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .gallery-title-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .right-top-icons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-circle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+
+        .create-preview-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: #000000;
+            width: 100%;
+            min-height: 0;
+        }
+
+        .create-preview-area video, 
+        .create-preview-area img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .empty-preview-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: #8e8e93;
+            text-align: center;
+        }
+
+        .empty-preview-icon {
+            color: #8e8e93;
+            opacity: 0.8;
+        }
+
+        .empty-preview-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        /* Barra Inferior com o Botão Pílula Avançar e a Navegação Fixa */
+        .create-footer-bar {
+            padding: 14px 20px 76px 20px; /* Espaço para não cobrir a nav inferior */
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            width: 100%;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .btn-advance-footer {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: not-allowed;
+            padding: 12px 0;
+            width: 280px;
+            height: 48px;
+            border-radius: 28px;
+            transition: 0.2s;
+            text-align: center;
+            opacity: 0.35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        }
+
+        .btn-advance-footer.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .btn-advance-footer.active:active {
+            transform: scale(0.97);
+        }
+
+        /* Barra de Navegação Fixa Inferior idêntica ao app */
+        .bottom-nav-fixed {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            width: 100%; height: 62px;
+            background: #121214;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 999;
+            box-sizing: border-box;
+            padding: 0 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-link {
+            background: none; border: none; cursor: pointer;
+            color: #8e8e93; display: flex; align-items: center;
+            justify-content: center; text-decoration: none;
+            width: 48px; height: 48px;
+        }
+
+        .nav-link.active-create .create-box-filled { fill: #ffffff; }
+        .nav-link.active-create .create-plus-inner { stroke: #121214; }
+
+        /* Modais */
+        .caption-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .caption-modal.show { display: flex; }
+
+        .caption-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .caption-header h2 { font-size: 18px; margin: 0; font-weight: 700; }
+
+        .btn-back-caption, .btn-publish-final {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-publish-final { color: #00ff88; }
+
+        .caption-body {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .caption-thumbnail {
+            width: 84px;
+            height: 84px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #222222;
+        }
+
+        .caption-textarea {
+            flex: 1;
+            height: 120px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .caption-textarea::placeholder { color: #8e8e93; }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay.show { display: flex; }
+
+        .loading-box {
+            background: #18181b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 28px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #00ff88;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="dark-create-theme">
+
+    <!-- Header Superior -->
+    <header class="create-header">
+        <a href="./passo1.html" class="btn-close" aria-label="Fechar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </a>
+
+        <div class="type-selector-tabs">
+            <button type="button" class="type-tab active" data-type="post">POST</button>
+            <button type="button" class="type-tab" data-type="story">STORY</button>
+            <button type="button" class="type-tab" data-type="video">VÍDEO</button>
+        </div>
+
+        <div class="header-right-placeholder"></div>
+    </header>
+
+    <!-- Área Principal de Preview -->
+    <main class="create-main-container">
+        <!-- Barra de Ações Internas (Galeria à esquerda e Ícones Seleção/Câmera à direita) -->
+        <div class="top-action-bar">
+            <button type="button" class="gallery-title-bar" id="gallerySelectorBtn">
+                Galeria
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+
+            <div class="right-top-icons">
+                <button type="button" class="icon-circle-btn" aria-label="Seleção Múltipla">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 3v18"></path></svg>
+                </button>
+                <button type="button" class="icon-circle-btn" id="cameraIconBtn" aria-label="Câmera">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="create-preview-area" id="previewContainer">
+            <div class="empty-preview-state" id="emptyStateDisplay">
+                <div class="empty-preview-icon">
+                    <!-- Ícone fiel ao print: Duas fotos sobrepostas -->
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline><path d="M7 21l5-5 3 3"></path></svg>
+                </div>
+                <p class="empty-preview-text">Faça um post no feed</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Barra Inferior com o Botão Avançar em Pílula -->
+    <footer class="create-footer-bar">
+        <button type="button" class="btn-advance-footer" id="btnAdvanceFooter">Avançar</button>
+    </footer>
+
+    <!-- Barra de Navegação Fixa Inferior -->
+    <nav class="bottom-nav-fixed">
+        <a href="./home.html" class="nav-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a>
+        <a href="./criar.html" class="nav-link active-create"><svg width="24" height="24" viewBox="0 0 24 24"><rect class="create-box-filled" x="2" y="2" width="20" height="20" rx="5" fill="#ffffff"></rect><path class="create-plus-inner" d="M12 7v10M7 12h10" stroke="#121214" stroke-width="2.5" stroke-linecap="round"/></svg></a>
+        <a href="./passo2.html" class="nav-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><polygon points="10,8 16,12 10,16" fill="currentColor"></polygon></svg></a>
+        <a href="./passo1.html" class="nav-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+    </nav>
+
+    <!-- Modais -->
+    <div class="caption-modal" id="captionModal">
+        <div class="caption-header">
+            <button type="button" class="btn-back-caption" id="closeModalBtn">Voltar</button>
+            <h2>Nova publicação</h2>
+            <button type="button" class="btn-publish-final" id="publishFinalBtn">Compartilhar</button>
+        </div>
+        <div class="caption-body">
+            <img id="modalThumbnail" class="caption-thumbnail" src="" alt="Thumbnail">
+            <textarea id="postCaptionInput" class="caption-textarea" placeholder="Escreva uma legenda..."></textarea>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <span class="loading-text">Publicando...</span>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;">
+
+    <script>
+        let selectedType = 'post';
+        let mediaDataUrl = null;
+        let mediaType = null;
+
+        const tabs = document.querySelectorAll('.type-tab');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const emptyStateDisplay = document.getElementById('emptyStateDisplay');
+        const gallerySelectorBtn = document.getElementById('gallerySelectorBtn');
+        const cameraIconBtn = document.getElementById('cameraIconBtn');
+        const btnAdvanceFooter = document.getElementById('btnAdvanceFooter');
+
+        const captionModal = document.getElementById('captionModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const publishFinalBtn = document.getElementById('publishFinalBtn');
+        const modalThumbnail = document.getElementById('modalThumbnail');
+        const postCaptionInput = document.getElementById('postCaptionInput');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Alternância de abas
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                selectedType = tab.getAttribute('data-type');
+                
+                const emptyText = document.querySelector('.empty-preview-text');
+                if (selectedType === 'post') emptyText.textContent = 'Faça um post no feed';
+                if (selectedType === 'story') emptyText.textContent = 'Crie um story';
+                if (selectedType === 'video') emptyText.textContent = 'Grave ou selecione um vídeo';
+            });
+        });
+
+        // Abertura da Galeria / Seletor de Arquivos
+        const triggerGallery = () => fileInput.click();
+        previewContainer.addEventListener('click', (e) => {
+            if (e.target === previewContainer || e.target === emptyStateDisplay || emptyStateDisplay.contains(e.target)) {
+                triggerGallery();
+            }
+        });
+        gallerySelectorBtn.addEventListener('click', triggerGallery);
+        cameraIconBtn.addEventListener('click', triggerGallery);
+
+        // Manipulação do arquivo selecionado
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const isVideo = file.type.startsWith('video');
+            const fileSizeMB = file.size / (1024 * 1024);
+
+            if (!isVideo && fileSizeMB > 10) {
+                alert("A imagem é muito grande. O limite máximo é 10MB.");
+                return;
+            }
+            if (isVideo && selectedType === 'video' && fileSizeMB > 100) {
+                alert("O vídeo excede o limite de 100MB.");
+                return;
+            }
+
+            if (isVideo) {
+                const tempVideo = document.createElement('video');
+                tempVideo.preload = 'metadata';
+                tempVideo.onloadedmetadata = function() {
+                    window.URL.revokeObjectURL(tempVideo.src);
+                    const duration = tempVideo.duration;
+
+                    if (selectedType === 'video' && duration > 185) {
+                        alert(`O vídeo tem ${Math.round(duration)}s. O limite máximo para a aba Vídeo é de 3 minutos.`);
+                        return;
+                    }
+                    processFile(file);
+                }
+                tempVideo.src = URL.createObjectURL(file);
+            } else {
+                processFile(file);
+            }
+        });
+
+        function processFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(uploadEvent) {
+                mediaDataUrl = uploadEvent.target.result;
+                mediaType = file.type.startsWith('video') ? 'video' : 'image';
+
+                emptyStateDisplay.style.display = 'none';
+
+                if (mediaType === 'video') {
+                    previewContainer.innerHTML = `<video src="${mediaDataUrl}" controls autoplay playsinline style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>`;
+                } else {
+                    previewContainer.innerHTML = `<img src="${mediaDataUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
+                }
+                
+                // Reaplica os controles superiores sobre o preview
+                previewContainer.appendChild(document.querySelector('.top-action-bar'));
+
+                modalThumbnail.src = mediaDataUrl;
+                btnAdvanceFooter.classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        btnAdvanceFooter.addEventListener('click', () => {
+            if (!mediaDataUrl) return;
+   
