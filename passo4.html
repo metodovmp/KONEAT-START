@@ -27,7 +27,7 @@
             font-family: inherit;
         }
 
-        /* CABEÇALHO */
+        /* CABEÇALHO COM LINHA SEPARADORA */
         .home-header {
             position: sticky;
             top: 0;
@@ -40,6 +40,7 @@
             justify-content: space-between;
             padding: 0 16px;
             z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06); /* Linha divisória sutil abaixo do logo */
         }
 
         .home-logo {
@@ -72,7 +73,7 @@
             height: 24px;
         }
 
-        /* SUBNAV COM INDICADOR MÓVEL BLINDADO */
+        /* SUBNAV COM INDICADOR MÓVEL FLUIDO */
         .home-subnav {
             position: sticky;
             top: 56px;
@@ -81,17 +82,17 @@
             background: #ffffff;
             display: flex;
             align-items: center;
+            gap: 24px;
             padding: 0 16px;
             z-index: 90;
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            position: relative;
         }
 
         .subnav-tab {
             position: relative;
             background: none;
             border: none;
-            padding: 0 16px 8px 0;
+            padding: 0 0 8px 0;
             font-size: 15px;
             font-weight: 500;
             color: #8e8e93;
@@ -105,7 +106,7 @@
             font-weight: 700;
         }
 
-        /* Indicador animado fluido */
+        /* Indicador animado que desliza entre as abas */
         .subnav-indicator {
             position: absolute;
             bottom: 0;
@@ -114,6 +115,24 @@
             background: #000000;
             border-radius: 2px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* WRAPPER PARA POSICIONAR O INDICADOR CORRETAMENTE */
+        .subnav-wrapper {
+            position: sticky;
+            top: 56px;
+            background: #ffffff;
+            z-index: 90;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .home-subnav-inner {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 0 16px;
+            height: 42px;
+            position: relative;
         }
 
         /* FEED CONTAINER */
@@ -390,13 +409,15 @@
         </div>
     </header>
 
-    <!-- SUBNAV -->
-    <nav class="home-subnav" id="subnavContainer">
-        <button type="button" class="subnav-tab active" data-target="for-you">pra você</button>
-        <button type="button" class="subnav-tab" data-target="following">seguindo</button>
-        <button type="button" class="subnav-tab" data-target="explore">explorar</button>
-        <div class="subnav-indicator" id="subnavIndicator"></div>
-    </nav>
+    <!-- SUBNAV COM LINHA E INDICADOR MÓVEL -->
+    <div class="subnav-wrapper">
+        <nav class="home-subnav-inner" id="subnavContainer">
+            <button type="button" class="subnav-tab active" data-target="for-you">pra você</button>
+            <button type="button" class="subnav-tab" data-target="following">seguindo</button>
+            <button type="button" class="subnav-tab" data-target="explore">explorar</button>
+            <div class="subnav-indicator" id="subnavIndicator"></div>
+        </nav>
+    </div>
 
     <!-- FEED -->
     <main class="home-feed-container" id="homeFeedContainer">
@@ -419,10 +440,10 @@
 
     <!-- NAVEGAÇÃO INFERIOR FIXA -->
     <nav class="bottom-nav-fixed">
-        <!-- 1. HOME (Casinha 100% preenchida em branco, sem cortes) -->
+        <!-- 1. HOME (Casinha 100% preenchida em branco) -->
         <a href="./passo4.html" class="nav-link" aria-label="Home">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                <path d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3L12 3z"/>
             </svg>
         </a>
 
@@ -458,8 +479,7 @@
         const indicator = document.getElementById('subnavIndicator');
 
         function updateIndicator(tab) {
-            // Pega a largura exata do texto do botão e a posição correta
-            indicator.style.width = `${tab.getBoundingClientRect().width - 16}px`;
+            indicator.style.width = `${tab.getBoundingClientRect().width}px`;
             indicator.style.left = `${tab.offsetLeft}px`;
         }
 
@@ -555,4 +575,5 @@
         });
     </script>
 </body>
-</html>
+                </html>
+    
