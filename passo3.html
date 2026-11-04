@@ -188,14 +188,15 @@
             object-fit: contain;
         }
 
-        /* BOTÃO AVANÇAR */
+        /* BOTÃO AVANÇAR MENOS ESTICADO (Mais compacto e centralizado) */
         .advance-button {
             position: fixed;
             left: 50%;
             bottom: 78px;
             transform: translateX(-50%);
-            width: 85%;
-            max-width: 320px;
+            width: auto;
+            min-width: 160px;
+            padding: 0 32px;
             height: 44px;
             border: 0;
             border-radius: 22px;
@@ -240,7 +241,7 @@
             height: 22px;
         }
 
-        /* ESTILO DO ITEM ATIVO (QUADRADINHO BRANCO COM ÍCONE PRETO IGUAL AO PASSODE VÍDEOS) */
+        /* ESTILO DO ITEM ATIVO (QUADRADINHO BRANCO COM ÍCONE PRETO) */
         .nav-link.active .nav-box-bg {
             fill: #ffffff;
         }
@@ -318,9 +319,9 @@
     <!-- AVANÇAR -->
     <button class="advance-button" id="advanceButton">Avançar</button>
 
-    <!-- NAVEGAÇÃO INFERIOR COM O PADRÃO VISUAL SOLICITADO -->
+    <!-- NAVEGAÇÃO INFERIOR -->
     <nav class="bottom-nav">
-        <!-- 1. Home (Passo 4) - Oco em cinza -->
+        <!-- 1. Home (Passo 4) -->
         <a href="./passo4.html" class="nav-link" aria-label="Home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -328,7 +329,7 @@
             </svg>
         </a>
 
-        <!-- 2. Criar / Plus (Passo 3 - Ativo com caixinha branca e + preto) -->
+        <!-- 2. Criar / Plus (Passo 3 - Ativo) -->
         <a href="./passo3.html" class="nav-link active" aria-label="Criar">
             <svg viewBox="0 0 24 24">
                 <rect class="nav-box-bg" x="2" y="2" width="20" height="20" rx="5" fill="none"></rect>
@@ -336,7 +337,7 @@
             </svg>
         </a>
 
-        <!-- 3. Vídeos Virais (Passo 2) - Oco em cinza -->
+        <!-- 3. Vídeos Virais (Passo 2) -->
         <a href="./passo2.html" class="nav-link" aria-label="Vídeos">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -344,7 +345,7 @@
             </svg>
         </a>
 
-        <!-- 4. Perfil (Passo 1) - Oco em cinza -->
+        <!-- 4. Perfil (Passo 1) -->
         <a href="./passo1.html" class="nav-link" aria-label="Perfil">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
                 <circle cx="12" cy="7" r="4"/>
@@ -422,5 +423,4 @@
         });
     </script>
 </body>
-    </html>
-    
+</html>
