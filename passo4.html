@@ -53,7 +53,7 @@
         .home-header-icons {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
         }
 
         .icon-top-btn {
@@ -72,19 +72,20 @@
             height: 24px;
         }
 
-        /* SUBNAV (PRA VOCÊ, SEGUINDO, EXPLORAR) */
+        /* SUBNAV COM LINHA SUAVE E INDICADOR PREMIUM */
         .home-subnav {
             position: sticky;
             top: 56px;
             width: 100%;
-            height: 40px;
+            height: 42px;
             background: #ffffff;
             display: flex;
             align-items: center;
             gap: 24px;
             padding: 0 16px;
             z-index: 90;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
         }
 
         .subnav-tab {
@@ -96,6 +97,7 @@
             font-weight: 500;
             color: #8e8e93;
             cursor: pointer;
+            transition: color 0.2s ease;
         }
 
         .subnav-tab.active {
@@ -103,15 +105,15 @@
             font-weight: 700;
         }
 
-        .subnav-tab.active::after {
-            content: "";
+        /* Indicador / Setinha fina e elegante estilo Premium */
+        .subnav-indicator {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
             height: 2px;
             background: #000000;
             border-radius: 2px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* FEED CONTAINER */
@@ -126,9 +128,9 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
-            padding: 12px 16px;
+            padding: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             overflow-x: auto;
-            border-bottom: 1px solid #f0f0f0;
             scrollbar-width: none;
         }
 
@@ -146,11 +148,11 @@
         }
 
         .story-avatar {
-            width: 64px;
-            height: 64px;
+            width: 66px;
+            height: 66px;
             border-radius: 50%;
-            background: #efeff4;
-            border: 2px solid #dbdbdb;
+            background: #e5e5ea;
+            border: 1px solid #d1d1d6;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -165,10 +167,10 @@
 
         .story-add-badge {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 20px;
-            height: 20px;
+            bottom: 1px;
+            right: 1px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: #000000;
             color: #ffffff;
@@ -177,12 +179,14 @@
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
+            line-height: 1;
         }
 
         .story-username {
             font-size: 12px;
-            color: #262626;
+            color: #1c1c1e;
+            font-weight: 400;
         }
 
         /* PUBLICAÇÕES / POSTS */
@@ -284,7 +288,7 @@
             height: 16px;
         }
 
-        /* AÇÕES DO POST (CURTIR, COMENTAR, REPOST, SALVAR) */
+        /* AÇÕES DO POST */
         .post-actions-bar {
             width: 100%;
             height: 48px;
@@ -332,9 +336,10 @@
             padding: 60px 20px;
             color: #8e8e93;
             font-size: 14px;
+            line-height: 1.5;
         }
 
-        /* NAVEGAÇÃO INFERIOR UNIFICADA */
+        /* NAVEGAÇÃO INFERIOR FIXA COM PADRÃO UNIFICADO */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
@@ -367,18 +372,8 @@
         }
 
         .nav-link svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        /* ATIVO NA HOME (Casinha preenchida de branco com símbolo interno preto) */
-        .nav-link.active-home .nav-box-bg {
-            fill: #ffffff;
-        }
-
-        .nav-link.active-home .nav-icon-inner {
-            stroke: #121214;
-            fill: #121214;
+            width: 24px;
+            height: 24px;
         }
     </style>
 </head>
@@ -397,11 +392,12 @@
         </div>
     </header>
 
-    <!-- SUBNAV -->
-    <nav class="home-subnav">
-        <button type="button" class="subnav-tab active">pra você</button>
-        <button type="button" class="subnav-tab">seguindo</button>
-        <button type="button" class="subnav-tab">explorar</button>
+    <!-- SUBNAV COM INDICADOR MÓVEL -->
+    <nav class="home-subnav" id="subnavContainer">
+        <button type="button" class="subnav-tab active" data-target="for-you">pra você</button>
+        <button type="button" class="subnav-tab" data-target="following">seguindo</button>
+        <button type="button" class="subnav-tab" data-target="explore">explorar</button>
+        <div class="subnav-indicator" id="subnavIndicator"></div>
     </nav>
 
     <!-- FEED -->
@@ -419,22 +415,20 @@
 
         <!-- PUBLICAÇÕES DINÂMICAS -->
         <section id="postsDynamicFeed">
-            <div class="empty-home-feed">Nenhuma publicação no momento. Crie um post para começar!</div>
+            <div class="empty-home-feed">Nenhuma publicação no momento.<br>Crie um post para começar!</div>
         </section>
     </main>
 
     <!-- NAVEGAÇÃO INFERIOR FIXA -->
     <nav class="bottom-nav-fixed">
-        <!-- 1. HOME (Ativo com caixinha branca e casinha preta) -->
-        <a href="./passo4.html" class="nav-link active-home" aria-label="Home">
-            <svg viewBox="0 0 24 24">
-                <rect class="nav-box-bg" x="2" y="2" width="20" height="20" rx="5" fill="none"></rect>
-                <path class="nav-icon-inner" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#8e8e93" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <polyline class="nav-icon-inner" points="9 22 9 12 15 12 15 22" stroke="#8e8e93" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- 1. HOME (Casinha toda preenchida em branco, conforme exemplo) -->
+        <a href="./passo4.html" class="nav-link" aria-label="Home">
+            <svg viewBox="0 0 24 24" fill="#ffffff">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
         </a>
 
-        <!-- 2. PLUS (Passo 3) -->
+        <!-- 2. PLUS (Passo 3 - Oco em cinza) -->
         <a href="./passo3.html" class="nav-link" aria-label="Criar">
             <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.2" stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19"/>
@@ -442,7 +436,7 @@
             </svg>
         </a>
 
-        <!-- 3. VÍDEOS (Passo 2) -->
+        <!-- 3. VÍDEOS (Passo 2 - Oco em cinza) -->
         <a href="./passo2.html" class="nav-link" aria-label="Vídeos">
             <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -450,7 +444,7 @@
             </svg>
         </a>
 
-        <!-- 4. PERFIL (Passo 1) -->
+        <!-- 4. PERFIL (Passo 1 - Oco em cinza) -->
         <a href="./passo1.html" class="nav-link" aria-label="Perfil">
             <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round">
                 <circle cx="12" cy="7" r="4"/>
@@ -462,6 +456,29 @@
     <!-- JAVASCRIPT -->
     <script>
         const postsDynamicFeed = document.getElementById('postsDynamicFeed');
+        const subnavTabs = document.querySelectorAll('.subnav-tab');
+        const indicator = document.getElementById('subnavIndicator');
+
+        // Função para posicionar o indicador dinamicamente embaixo de cada aba
+        function updateIndicator(activeTab) {
+            indicator.style.width = `${activeTab.offsetWidth}px`;
+            indicator.style.left = `${activeTab.offsetLeft}px`;
+        }
+
+        // Inicializar indicador na aba ativa
+        window.addEventListener('load', () => {
+            const activeTab = document.querySelector('.subnav-tab.active');
+            if (activeTab) updateIndicator(activeTab);
+        });
+
+        // Alternar abas e mover a setinha/traço suavemente
+        subnavTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                subnavTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                updateIndicator(tab);
+            });
+        });
 
         function renderHomeFeed() {
             const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
@@ -477,7 +494,7 @@
             const combinedPosts = Array.from(allPostsMap.values());
 
             if (combinedPosts.length === 0) {
-                postsDynamicFeed.innerHTML = `<div class="empty-home-feed">Nenhuma publicação no momento. Crie um post para começar!</div>`;
+                postsDynamicFeed.innerHTML = `<div class="empty-home-feed">Nenhuma publicação no momento.<br>Crie um post para começar!</div>`;
                 return;
             }
 
