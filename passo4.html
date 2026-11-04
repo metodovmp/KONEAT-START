@@ -72,7 +72,7 @@
             height: 24px;
         }
 
-        /* SUBNAV COM LINHA SUAVE E INDICADOR MÓVEL FUNCIONAL */
+        /* SUBNAV COM INDICADOR MÓVEL BLINDADO */
         .home-subnav {
             position: sticky;
             top: 56px;
@@ -81,22 +81,23 @@
             background: #ffffff;
             display: flex;
             align-items: center;
-            gap: 24px;
             padding: 0 16px;
             z-index: 90;
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
         }
 
         .subnav-tab {
             position: relative;
             background: none;
             border: none;
-            padding: 0 0 8px 0;
+            padding: 0 16px 8px 0;
             font-size: 15px;
             font-weight: 500;
             color: #8e8e93;
             cursor: pointer;
             transition: color 0.2s ease;
+            white-space: nowrap;
         }
 
         .subnav-tab.active {
@@ -104,7 +105,7 @@
             font-weight: 700;
         }
 
-        /* Indicador animado que anda entre as abas */
+        /* Indicador animado fluido */
         .subnav-indicator {
             position: absolute;
             bottom: 0;
@@ -389,15 +390,13 @@
         </div>
     </header>
 
-    <!-- SUBNAV COM INDICADOR MÓVEL DINÂMICO -->
-    <div style="position: relative;">
-        <nav class="home-subnav" id="subnavContainer">
-            <button type="button" class="subnav-tab active" data-target="for-you">pra você</button>
-            <button type="button" class="subnav-tab" data-target="following">seguindo</button>
-            <button type="button" class="subnav-tab" data-target="explore">explorar</button>
-            <div class="subnav-indicator" id="subnavIndicator"></div>
-        </nav>
-    </div>
+    <!-- SUBNAV -->
+    <nav class="home-subnav" id="subnavContainer">
+        <button type="button" class="subnav-tab active" data-target="for-you">pra você</button>
+        <button type="button" class="subnav-tab" data-target="following">seguindo</button>
+        <button type="button" class="subnav-tab" data-target="explore">explorar</button>
+        <div class="subnav-indicator" id="subnavIndicator"></div>
+    </nav>
 
     <!-- FEED -->
     <main class="home-feed-container" id="homeFeedContainer">
@@ -412,7 +411,7 @@
             </div>
         </section>
 
-        <!-- PUBLICAÇÕES DINÂMICAS -->
+        <!-- PUBLICAÇÕES -->
         <section id="postsDynamicFeed">
             <div class="empty-home-feed">Nenhuma publicação no momento.<br>Crie um post para começar!</div>
         </section>
@@ -420,10 +419,10 @@
 
     <!-- NAVEGAÇÃO INFERIOR FIXA -->
     <nav class="bottom-nav-fixed">
-        <!-- 1. HOME (Casinha 100% preenchida em branco, corrigida e sem cortes) -->
+        <!-- 1. HOME (Casinha 100% preenchida em branco, sem cortes) -->
         <a href="./passo4.html" class="nav-link" aria-label="Home">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3L12 3z" fill="#ffffff"/>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
         </a>
 
@@ -459,11 +458,17 @@
         const indicator = document.getElementById('subnavIndicator');
 
         function updateIndicator(tab) {
-            indicator.style.width = `${tab.offsetWidth}px`;
+            // Pega a largura exata do texto do botão e a posição correta
+            indicator.style.width = `${tab.getBoundingClientRect().width - 16}px`;
             indicator.style.left = `${tab.offsetLeft}px`;
         }
 
         window.addEventListener('load', () => {
+            const activeTab = document.querySelector('.subnav-tab.active');
+            if (activeTab) updateIndicator(activeTab);
+        });
+
+        window.addEventListener('resize', () => {
             const activeTab = document.querySelector('.subnav-tab.active');
             if (activeTab) updateIndicator(activeTab);
         });
